@@ -17,7 +17,11 @@ if (!app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Game");
+    return Task.CompletedTask;
+});
 app.MapStaticAssets();
 
 app.MapControllerRoute(
