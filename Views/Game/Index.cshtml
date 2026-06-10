@@ -1,0 +1,50 @@
+﻿@model GameViewModel
+
+<h2>Gra w Tysiąca - Licznik punktów</h2>
+
+@if (!(Model?.Players?.Any() == true))
+{
+    <form method="post" action="/Game/Setup">
+        <p>Podaj graczy (2-4):</p>
+
+        <input name="playerNames" placeholder="Gracz 1" />
+        <input name="playerNames" placeholder="Gracz 2" />
+        <input name="playerNames" placeholder="Gracz 3" />
+        <input name="playerNames" placeholder="Gracz 4" />
+
+        <button type="submit">Start gry</button>
+    </form>
+}
+else
+{
+    <h3>Runda: @Model.CurrentRound</h3>
+
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Gracz</th>
+            <th>Punkty</th>
+        </tr>
+
+        @foreach (var p in Model.Players)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@p.Score</td>
+            </tr>
+        }
+    </table>
+
+    <h3>Dodaj punkty z rundy</h3>
+
+    <form method="post" action="/Game/AddRound">
+        @for (int i = 0; i < Model.Players.Count; i++)
+        {
+            <input type="number" name="points" placeholder="@Model.Players[i].Name" />
+        }
+
+        <button type="submit">Dodaj rundę</button>
+    </form>
+
+    <br />
+    <a href="/Game/Reset">Reset gry</a>
+}
